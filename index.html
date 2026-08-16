@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños!</title>
+    
+    <!-- FUENTE DE GOOGLE PARA EL NOMBRE -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Contenedor principal */
+        .container {
+            text-align: center;
+            padding: 30px 20px;
+            z-index: 2;
+            animation: fadeIn 2s ease;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 4px 4px 0 #e74c3c, 8px 8px 0 rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        /* NOMBRE CON FUENTE CURSIVA ESPECIAL */
+        .subtitle {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 3px 3px 0 #e67e22, 6px 6px 0 rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            font-family: 'Dancing Script', cursive;
+            letter-spacing: 2px;
+        }
+
+        /* Botón principal */
+        .btn-principal {
+            background: #ff6b6b;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.8rem;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #c0392b;
+            transition: all 0.1s ease;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .btn-principal:active {
+            transform: translateY(8px);
+            box-shadow: 0 0 0 #c0392b;
+        }
+
+        /* Botón para mostrar fotos (dentro de la carta) */
+        .btn-fotos {
+            background: #8e44ad;
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.5rem;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #6c3483;
+            transition: all 0.1s ease;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        .btn-fotos:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #6c3483;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ===== SECCIÓN DE CARTA ===== */
+        .carta-seccion {
+            display: none;
+            animation: revelar 0.8s ease forwards;
+        }
+
+        .carta-seccion.mostrar {
+            display: block;
+        }
+
+        /* ===== SECCIÓN DE FOTOS ===== */
+        .fotos-seccion {
+            display: none;
+            animation: revelar 0.8s ease forwards;
+        }
+
+        .fotos-seccion.mostrar {
+            display: block;
+        }
+
+        @keyframes revelar {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ===== ESTILOS DE LA CARTA ===== */
+        .carta-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px 35px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .carta-container h2 {
+            color: #e74c3c;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 25px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .carta-texto {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: #2c3e50;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 10px 5px;
+            min-height: 200px;
+        }
+
+        .carta-texto .firma {
+            text-align: right;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #e74c3c;
+            margin-top: 15px;
+        }
+
+        /* ===== CARRUSEL DE FOTOS ===== */
+        .fotos-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px 20px 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .mensaje-fotos {
+            font-size: 1.6rem;
+            color: #fff;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            font-weight: 300;
+            line-height: 1.6;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .carrusel-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .carrusel-track {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        .carrusel-slide {
+            min-width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        .carrusel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+
+        .carrusel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: #333;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carrusel-btn:hover {
+            background: #fff;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .carrusel-btn.prev {
+            left: 15px;
+        }
+
+        .carrusel-btn.next {
+            right: 15px;
+        }
+
+        .carrusel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dot.active {
+            background: #ff6b6b;
+            border-color: #fff;
+            transform: scale(1.2);
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* ===== MENSAJE DE CARGA ===== */
+        .mensaje-carga {
+            color: #fff;
+            font-size: 1.5rem;
+            margin: 30px 0;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            animation: parpadeo 1s infinite;
+        }
+
+        @keyframes parpadeo {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Confeti canvas */
+        #confetiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Globos flotantes */
+        .globo {
+            position: absolute;
+            font-size: 3rem;
+            animation: flotar 8s ease-in-out infinite;
+            z-index: 0;
+            opacity: 0.7;
+            user-select: none;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-60px) rotate(5deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8rem; }
+            .subtitle { font-size: 2.2rem; }
+            .btn-principal { font-size: 1.3rem; padding: 15px 25px; }
+            .btn-fotos { font-size: 1.2rem; padding: 14px 30px; }
+            .globo { font-size: 2rem; }
+            .carta-container { padding: 25px 20px; }
+            .carta-texto { font-size: 1rem; }
+            .mensaje-fotos { font-size: 1.2rem; padding: 15px 18px; }
+            .carrusel-slide { height: 300px; }
+            .carrusel-btn { width: 35px; height: 35px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Globos decorativos -->
+    <div class="globo" style="top: 5%; left: 5%; animation-delay: 0s;">🎈</div>
+    <div class="globo" style="top: 15%; right: 8%; animation-delay: 2s;">🎈</div>
+    <div class="globo" style="bottom: 20%; left: 10%; animation-delay: 4s;">🎈</div>
+    <div class="globo" style="bottom: 10%; right: 5%; animation-delay: 1s;">🎈</div>
+    <div class="globo" style="top: 40%; left: 3%; animation-delay: 3s;">🎈</div>
+    <div class="globo" style="top: 50%; right: 3%; animation-delay: 5s;">🎈</div>
+
+    <!-- Canvas para confeti -->
+    <canvas id="confetiCanvas"></canvas>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <h1>¡Feliz Cumpleaños!</h1>
+        <p class="subtitle">✨Gloris✨</p>
+        
+        <!-- BOTÓN PRINCIPAL -->
+        <button class="btn-principal" onclick="mostrarCarta()">Tengo algo que decirte...</button>
+
+        <!-- MENSAJE DE CARGA -->
+        <div id="mensajeCarga" class="mensaje-carga" style="display: none;">
+            Preparando....
+        </div>
+
+        <!-- ===== SECCIÓN DE CARTA ===== -->
+        <div id="cartaSeccion" class="carta-seccion">
+            <div class="carta-container">
+                <h2>💌 Para ti...</h2>
+                <div class="carta-texto">
+                    Querida Gloris,
+
+                    Hay días en el año que son bonitos, pero hoy es mi favorito porque es el día en que naciste… 
+                    Si supieras lo mucho que te admiro… A veces me quedo pensando en lo increíble que eres. 
+                    No hay un solo día en el que no me impresione ver cómo le pones el alma a cada detalle y como te esfuerzas en silencio, Te entregas tanto, das tanto de ti a los demás, que me da miedo que un día olvides cuánto vales tú.
+                    Hoy, en el día de tu cumpleaños, no quiero desearte un feliz día; quiero recordarte quien eres. Eres esa persona favorita a la que admiro con toda mi alma, la que ilumina cualquier lugar con solo estar. Todo tu sacrificio, tus desvelos y las lágrimas que has derramado no han sido en vano; cada paso que das te hace más grande, aunque tu humildad no deje verlo.
+                    Quiero que hoy te mires al espejo con orgullo, que llores, sí, pero de alegría, al date cuenta todo lo que has logrado, de lo lejos que has llegado y del gran amor que has sembrado alrededor. No dejes jamás que la prisa de la vida te haga dudar de tu valor. Eres una bendición y mereces todo lo bonito que el universo tiene preparado para ti.
+                    Pero sobre todo, hoy quiero agradecer el simple hecho de haberte conocido tener la suerte de cruzarme con una persona tan valiosa, auténtica e inspiradora como tú es algo que valoro muchísimo. Gracias por existir, por no rendirte jamás y por ser la persona increíble que eres. 
+                    Te debo tu regalo Vaquerita
+
+                    <div class="firma">Con todo mi cariño,<br> Hans</div>
+                </div>
+
+                <!-- BOTÓN PARA VER FOTOS -->
+                <div style="text-align: center;">
+                    <button class="btn-fotos" onclick="mostrarFotos()">Quiero que veas esto...</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECCIÓN DE FOTOS ===== -->
+        <div id="fotosSeccion" class="fotos-seccion">
+            
+            <!-- MENSAJE DE FOTOS -->
+            <div class="mensaje-fotos">
+                Aquí una recopilación de momentos increíbles que pasé junto a ti<br>
+                y pude sentir esa conexión especial contigo 
+            </div>
+
+            <!-- CARRUSEL DE FOTOS -->
+            <div class="fotos-container">
+                <div class="carrusel-container">
+                    <div class="carrusel-track" id="carruselTrack">
+                        <!-- Foto 1 -->
+                        <div class="carrusel-slide">
+                            <img src="imagenes/foto1.jpeg" alt="Foto 1">
+                            <span class="slide-number">1 / 6</span>
+                        </div>
+                        <!-- Foto 2 -->
+                        <div class="carrusel-slide">
+                            <img src="imagenes/foto2.jpeg" alt="Foto 2">
+                            <span class="slide-number">2 / 6</span>
+                        </div>
+                        <!-- Foto 3 -->
+                        <div class="carrusel-slide">
+                            <img src="imagenes/foto3.jpeg" alt="Foto 3">
+                            <span class="slide-number">3 / 6</span>
+                        </div>
+                        <!-- Foto 4 -->
+                        <div class="carrusel-slide">
+                            <img src="imagenes/foto4.jpeg" alt="Foto 4">
+                            <span class="slide-number">4 / 6</span>
+                        </div>
+                        <!-- Foto 5 -->
+                        <div class="carrusel-slide">
+                            <img src="imagenes/foto5.jpeg" alt="Foto 5">
+                            <span class="slide-number">5 / 6</span>
+                        </div>
+                        <!-- Foto 6 -->
+                        <div class="carrusel-slide">
+                            <img src="imagenes/foto6.jpeg" alt="Foto 6">
+                            <span class="slide-number">6 / 6</span>
+                        </div>
+                    </div>
+
+                    <button class="carrusel-btn prev" onclick="cambiarSlide(-1)">❮</button>
+                    <button class="carrusel-btn next" onclick="cambiarSlide(1)">❯</button>
+                </div>
+
+                <div class="carrusel-dots" id="carruselDots"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ======== CARRUSEL ========
+        let slideActual = 0;
+        let autoPlayInterval = null;
+
+        function actualizarCarrusel() {
+            const track = document.getElementById('carruselTrack');
+            const dots = document.querySelectorAll('.dot');
+            
+            track.style.transform = `translateX(-${slideActual * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === slideActual);
+            });
+        }
+
+        function cambiarSlide(direccion) {
+            const total = document.querySelectorAll('.carrusel-slide').length;
+            slideActual = (slideActual + direccion + total) % total;
+            actualizarCarrusel();
+            reiniciarAutoPlay();
+        }
+
+        function irSlide(index) {
+            slideActual = index;
+            actualizarCarrusel();
+            reiniciarAutoPlay();
+        }
+
+        function crearDots() {
+            const dotsContainer = document.getElementById('carruselDots');
+            const total = document.querySelectorAll('.carrusel-slide').length;
+            
+            dotsContainer.innerHTML = '';
+            
+            for (let i = 0; i < total; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (i === 0) dot.classList.add('active');
+                dot.onclick = () => irSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function iniciarAutoPlay() {
+            autoPlayInterval = setInterval(() => {
+                const total = document.querySelectorAll('.carrusel-slide').length;
+                slideActual = (slideActual + 1) % total;
+                actualizarCarrusel();
+            }, 4000);
+        }
+
+        function reiniciarAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                iniciarAutoPlay();
+            }
+        }
+
+        // ======== CONFETI ========
+        const canvas = document.getElementById('confetiCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+        let animationId = null;
+        let confetiActivo = false;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.size = Math.random() * 10 + 5;
+                this.speedY = Math.random() * 8 + 4;
+                this.speedX = (Math.random() - 0.5) * 6;
+                this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 10;
+                this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.x < 0 || this.x > width) this.speedX *= -0.8;
+                if (this.y > height + 50) {
+                    this.y = -50;
+                    this.x = Math.random() * width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = 'rgba(0,0,0,0.2)';
+                ctx.shadowBlur = 5;
+
+                if (this.shape === 'rect') {
+                    ctx.fillRect(-this.size/2, -this.size/4, this.size, this.size/2);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size/2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function generarConfeti(cantidad = 250) {
+            for (let i = 0; i < cantidad; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animarConfeti() {
+            ctx.clearRect(0, 0, width, height);
+            for (let p of particles) {
+                p.update();
+                p.draw();
+            }
+            animationId = requestAnimationFrame(animarConfeti);
+        }
+
+        function lanzarConfeti() {
+            if (confetiActivo) {
+                generarConfeti(150);
+                return;
+            }
+
+            confetiActivo = true;
+            generarConfeti(300);
+            animarConfeti();
+
+            setTimeout(() => {
+                confetiActivo = false;
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                    ctx.clearRect(0, 0, width, height);
+                    particles = [];
+                }
+            }, 12000);
+        }
+
+        // ======== FUNCIONES PRINCIPALES ========
+        
+        function mostrarCarta() {
+            const boton = document.querySelector('.btn-principal');
+            boton.style.display = 'none';
+
+            const mensaje = document.getElementById('mensajeCarga');
+            mensaje.style.display = 'block';
+
+            lanzarConfeti();
+
+            setTimeout(() => {
+                mensaje.style.display = 'none';
+
+                const carta = document.getElementById('cartaSeccion');
+                carta.classList.add('mostrar');
+                
+                carta.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 1500);
+        }
+
+        function mostrarFotos() {
+            const botonFotos = document.querySelector('.btn-fotos');
+            botonFotos.style.display = 'none';
+
+            lanzarConfeti();
+
+            setTimeout(() => {
+                const fotos = document.getElementById('fotosSeccion');
+                fotos.classList.add('mostrar');
+                
+                crearDots();
+                iniciarAutoPlay();
+                
+                fotos.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 1000);
+        }
+
+        // Lanzar confeti automático al cargar
+        window.addEventListener('load', () => {
+            setTimeout(lanzarConfeti, 800);
+        });
+    </script>
+</body>
+</html>
